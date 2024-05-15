@@ -1,7 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-function TodoList({ todos }) {
+function TodoList() {
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+    axios.get('https://jsonplaceholder.typicode.com/todos')
+      .then(response => {
+        setTodos(response.data.slice(0, 20)); 
+      })
+      .catch(error => console.error('Error fetching data: ', error));
+  }, []);
+
   return (
     <ul>
       {todos.map(todo => (
@@ -16,3 +27,4 @@ function TodoList({ todos }) {
 }
 
 export default TodoList;
+
